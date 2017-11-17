@@ -1,0 +1,155 @@
+CREATE DATABASE shops;
+USE shops;
+CREATE TABLE basic_info (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ name VARCHAR(30)
+ );
+
+/* information을 두 개로 분리함. 상대적으로 변동있는 웹상의 데이터 분리.
+shop_info도 shot_info도 미묘한 것 같아서 introduction(소개)로 변경 */
+CREATE TABLE web_info (
+ shop_id INT PRIMARY KEY,
+ homepage TEXT,
+ introduction TEXT,
+ img_url TEXT,
+ naver_id INT,
+ etc TEXT,
+ FOREIGN KEY (shop_id) REFERENCES basic_info (id)
+ );
+
+/* 시간 파싱 형태가 XX:YY 꼴이므로 데이터 변경
+offday는 4주에 한번같은 이레귤라 있으므로*/
+CREATE TABLE real_info (
+ shop_id INT PRIMARY KEY,
+ phone CHAR(11),
+ open_time VARCHAR(5),
+ close_time VARCHAR(5),
+ offday VARCHAR(20),
+ category VARCHAR(10),
+ FOREIGN KEY (shop_id) REFERENCES basic_info (id)
+ );
+
+CREATE TABLE address (
+ shop_id INT PRIMARY KEY,
+ address VARCHAR(40),
+ location_x DECIMAL(10, 8),
+ location_y DECIMAL(11, 8),
+ FOREIGN KEY (shop_id) REFERENCES basic_info (id)
+ );
+
+CREATE TABLE menu (
+ shop_id INT,
+ name VARCHAR(20),
+ price INT(7),
+ ip_address VARCHAR(15),
+ PRIMARY KEY (shop_id, name),
+ FOREIGN KEY (shop_id) REFERENCES basic_info (id)
+ );
+
+CREATE TABLE estimation (
+ shop_id INT,
+ name VARCHAR(20),
+ comment TEXT,
+ rating TINYINT,
+ ip_address VARCHAR(15),
+ make_date DATETIME,
+ PRIMARY KEY (shop_id, name),
+ FOREIGN KEY (shop_id) REFERENCES basic_info (id),
+ CONSTRAINT rating_limit CHECK (rating between 1 and 5)
+ );
+
+CREATE TABLE ex_review (
+ shop_id INT,
+ url VARCHAR(50),
+ title VARCHAR(30),
+ content TEXT,
+
+ PRIMARY KEY (shop_id, title),
+ FOREIGN KEY (shop_id) REFERENCES basic_info (id)
+ );
+
+insert into basic_info values
+(1, "무교동 낙지 비빔밥"),
+(2, "행복한 커피 전문점"),
+(3, "중국식 일본 요리점"),
+(4, "이탈리안 차이니즈 푸드"),
+(5, "원조 일본 치즈");
+insert into basic_info(name) values
+("생강차 맛집"),
+("공무원 떡집"),
+("파워 강냉이"),
+("CSS맛 사탕 전문점"),
+("고소한 우유집"),
+("이 멋진 축복의 가게"),
+("금오식당"),
+("학연산낙지"),
+("중앙 떡볶이");
+
+
+insert into web_info values
+(1, "http://naver.com/", "침이 꿀꺽 넘어가는 무교동 낙지 비빔밥, 맛있습니다.", "http://naver.com/", 23423, "OOOXX"),
+(2, "http://naver.com/", "이탈리아 베네치아에서 배워온 로스팅 솜씨로 모두를 감동시키겠습니다.", "http://naver.com/", 23432, "OOOXX"),
+(3, "http://naver.com/", "냉무", "http://naver.com/", 23424, "OOOXX"),
+(4, "http://naver.com/", "중국 요리는 이탈리아가 발상지입니다.", "http://naver.com/", 234324, "OOOXX"),
+(5, "http://naver.com/", "사실 저희는 원조가 아닙니다.", "http://naver.com/", 324324, "OOOXX");
+
+insert into real_info values
+(1, "0315554444", "10:30", "20:00", "금토일","hansik"),
+(2, "0315554444", "10:30", "20:00", "매주목요일","hansik"),
+(3, "0315554444", "10:30", "20:00", "달이둥글게뜨는밤마다","hansik"),
+(4, "0315554444", "10:30", "20:00", "고양이가 냐옹하고 세 번 울 때","hansik"),
+(5, "0315554444", "10:30", "20:00", "고양이가 금화를 줄 때", "hansik");
+
+/*reminder
+일단 임시로 shop_estimation 네임을 프리마리키로.... 나중에 ip로 바꿔라....
+*/
+
+/* 추가 스키마 */
+CREATE TABLE now_comment (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ shop_id INT,
+ comment TEXT,
+ ip_address VARCHAR(15),
+ make_date DATETIME,
+ FOREIGN KEY (shop_id) REFERENCES basic_info (id)
+);
+
+CREATE TABLE meal_party (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ shop_id INT,
+ subject VARCHAR(20),
+ content TEXT,
+ recruit TINYINT,
+ apply TINYINT DEFAULT 0,
+ ip_address VARCHAR(15),
+ make_date DATETIME,
+ FOREIGN KEY (shop_id) REFERENCES basic_info (id)
+);
+
+CREATE TABLE meal_party_comment (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ party_id INT,
+ name VARCHAR(12),
+ comment TEXT,
+ ip_address VARCHAR(15),
+ make_date DATETIME,
+ FOREIGN KEY (party_id) REFERENCES meal_party (id)
+);
+
+/*아래는 현재 개발중인 쿼리임.*/
+
+CREATE TABLE share_info (
+ shop_id INT(4) PRIMARY KEY,
+ no_alone BOOL,
+ no_card BOOL,
+ morning BOOL,
+ lunch BOOL,
+ evening BOOL,
+ FOREIGN KEY (shop_id) REFERENCES basic_info (id)
+);
+
+
+
+
+sql int(n)의 n은 입력가능 범위가 아니라, n만큼 안되면 0을 채워주는 기능
+밀파티 INT로 수정

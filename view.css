@@ -1,0 +1,299 @@
+body {
+    margin: 15px;
+}
+
+#info span span, #info > a {
+    padding: 10px;
+    margin: 10px;
+    background-color: black;
+    color: white;
+}
+
+#info {
+    background-color: lightblue;
+    overflow: hidden;
+    padding: 15px;
+}
+#title {
+    overflow: hidden;
+    padding:15px;
+    background-color: green;
+    margin-bottom:0;
+}
+#back_to_list {
+    text-decoration: none;
+    color: white;
+    background-color: darkgreen;
+    float: right;
+    margin: 10px;
+    padding: 15px;
+}
+#info p {
+    font-size: 20px;
+    margin: 10px;
+}
+#info > a {
+    text-decoration: none;
+}
+#info span, #info > a{
+    font-size: 24px;
+    display: inline-block;
+}
+
+#category {
+    font-size: 24px;
+    padding: 10px;
+    margin: 10px;
+    background-color: yellowgreen;
+    color: white;
+}
+
+#share_info {
+    background-color: lightsteelblue;
+    padding : 15px;
+    overflow: hidden;
+}
+#share_info span span:nth-child(2) {
+    background-color: darkseagreen;
+    padding : 5px;
+}
+#share_info label {
+    font-size: 24px;
+    padding : 5px;
+}
+#share_info span span:nth-child(1) {
+    background-color: black;
+    color: white;
+    padding: 5px;
+}
+.remove_menu {
+    color : white;
+    border-bottom: 3px solid darkred;
+    background-color: mediumvioletred;
+    padding: 5px 5px 5px 5px;
+}
+
+.preview_menu {
+    color : white;
+    border-bottom: 3px solid darkgreen;
+    background-color: darkseagreen;
+    padding: 5px 5px 5px 5px;
+    position: relative;
+}
+
+.edit_menu {
+    color : white;
+    border-bottom: 3px solid darkblue;
+    background-color: dodgerblue;
+    padding: 5px 5px 5px 5px;
+}
+.menu_option {
+    float: right;
+}
+.menu_line {
+    background-color: lightblue;
+    padding : 15px;
+}
+
+.menu_line > span:first-child {
+    color : white;
+    background-color: black;
+    padding: 5px 5px 5px 5px;
+}
+
+.menu_price {
+    color: white;
+    background-color: darkblue;
+    border-left: 5px solid lightsteelblue;
+    padding-left: 5px;
+}
+
+.menu_line > span:nth-child(4) {
+    color: white;
+    background-color: darkblue;
+}
+
+input {
+    border: 0;
+    border-bottom: 1px solid black;
+}
+
+
+input[type=submit], #new_party {
+    color: white;
+    background-color: green;
+    border-bottom: 3px solid darkgreen;
+    float: right;
+    font-size: 24px;
+    padding: 0 15px 0 15px;
+}
+
+#new_party {
+    text-decoration: none;
+}
+.comment_info {
+    background-color: skyblue;
+    padding: 15px;
+    overflow: hidden;
+}
+
+.comment_info span:nth-child(1) {
+    float: left;
+}
+.comment_info span:nth-child(2) {
+    float: right;
+}
+.comment_info span span:nth-child(1) {
+    color : white;
+    background-color: black;
+    padding: 5px;
+    margin-right: 5px;
+}
+textarea {
+    border: 1px solid black;
+    height: 200px;
+    margin-top: 15px;
+    width: 100%;
+}
+#comment_area, #menu_area {
+    margin: 15px;
+}
+.comment_info span span:nth-child(2) {
+    margin: 5px;
+}
+
+.comment {
+    background-color: lightblue;
+    margin-bottom: 15px;
+    padding: 15px;
+}
+#other_review {
+    font-size: 24px;
+    text-decoration: none;
+    color: white;
+    background-color: blue;
+    magin: 5px;
+    padding: 5px 15px 5px 15px;
+    float: right;
+}
+
+#name_box {
+    font-size: 24px;
+}
+#stars {
+    font-size: 24px;
+    margin-left: 15px;
+}
+#menu_area input:nth-child(1) {
+    font-size: 24px;
+    width: 50%;
+}
+#menu_area input:nth-child(2) {
+    font-size: 24px;
+    width: 20%;
+}
+#avg_rating_display {
+    font-size: 32px;
+    background-color: darkblue;
+    color: white;
+    margin-bottom: 15px;
+    padding: 15px;
+}
+
+
+#party div:nth-child(1) {
+    background-color: darkblue;
+    color: white;
+    font-size: 24px;
+
+}
+
+#party div:nth-child(2) {
+    background-color: lightblue;
+    font-size: 16px;
+}
+
+#party p {
+    margin: 0;
+    padding: 0;
+}
+#now_comment {
+    height: 32px;
+    border-bottom: 3px solid orangered;
+    overflow: hidden;
+    width: 70%;
+    display: inline-block;
+}
+#now_comment input[type = text] {
+    border-bottom: none;
+    width: 70%;
+    height: 100%;
+    margin-left: 0;
+    padding-left: 5px;
+}
+#now_label {
+    border-bottom: none;
+    color : black;
+    background-color: yellow;
+    padding: 5px 5px 5px 5px;
+    margin-right: 0;
+    height: 100%;
+}
+h1 {
+    color: white;
+    display: inline-block;
+}
+
+.now_comment {
+    background-color: darkseagreen;
+    margin: 15px 0 15px 0;
+    padding: 5px 15px 5px 15px;
+    overflow: hidden;
+}
+
+.now_comment p {
+    float: left;
+    display: inline-block;
+}
+
+.now_comment span {
+    float: right;
+}
+
+h2 {
+    color: white;
+    margin-left: 15px;
+    background-color: green;
+    border-left: 10px solid darkgreen;
+    padding-left: 15px;
+    padding-right: 50px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+
+.party_list {
+    background-color: darkseagreen;
+    margin: 15px 0 15px 0;
+    padding: 15px;
+    overflow: hidden;
+}
+.party_list > p {
+    margin-right: 15px;
+    display: inline-block;
+}
+.party_list > span:nth-child(4) {
+    float: right;
+}
+
+.party_list span span:nth-child(2n - 1) {
+    background-color: black;
+    color: white;
+    padding: 5px;
+}
+
+.party_list span span:nth-child(2n) {
+    background-color: skyblue;
+    color: black;
+    padding: 5px;
+}
