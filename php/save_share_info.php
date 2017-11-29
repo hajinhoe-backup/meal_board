@@ -2,12 +2,33 @@
 /**
  * Created by PhpStorm.
  * User: jinho
- * Date: 17. 11. 13
- * Time: 오후 8:43
+ * Date: 17. 11. 21
+ * Time: 오전 10:47
  */
-$shop_name = $_GET["shop_name"];
-$shop_id = $_GET["shop_id"];
+$shop_id = $_POST["shop_id"];
+$no_alone = isset($_POST["no_alone"]) ? TRUE : FALSE;
+$no_card = isset($_POST["no_card"]) ? TRUE : FALSE;
+$morning = isset($_POST["morning"]) ? TRUE : FALSE;
+$lunch = isset($_POST["lunch"]) ? TRUE : FALSE;
+$evening = isset($_POST["evening"]) ? TRUE : FALSE;
+$shop_name = $_POST["shop_name"];
+
+include('connect_db.php');
+
+try {
+    $get_info = $db->query("SELECT * FROM share_info WHERE shop_id = $shop_id;");
+    if ($get_info -> rowCount() == 0) {
+        $stmt = $db->prepare("INSERT INTO share_info VALUES (?,?,?,?,?,?);");
+        $stmt->execute(array($shop_id, $no_alone, $no_card, $morning, $lunch, $evening));
+    } else {
+        $stmt = $db->prepare("UPDATE share_info SET no_alone = ?, no_card = ?, morning = ?, lunch = ?, evening = ? WHERE shop_id = $shop_id;");
+        $stmt->execute(array($no_alone, $no_card, $morning, $lunch, $evening));
+    }
+} catch (PDOException $ex) {
+    echo "실패하였습니다.";
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -77,45 +98,11 @@ $shop_id = $_GET["shop_id"];
 </head>
 <body>
 <div id="title">
-<a id="back_to_list" href="view.php?shop_id=<?= $shop_id ?>&shop_name=<?= $shop_name ?>">뒤로가기</a>
-    <h1>새 파티 만들기</h1>
-<p>새로운 밥 파티를 만드는 것은 어렵지 않습니다. 단순히 아래의 기입 양식을 채운 후에 저장하세요!</p>
+    <a id="back_to_list" href="../view.php?shop_id=<?= $shop_id ?>&shop_name=<?= $shop_name ?>">뒤로가기</a>
+    <h1>안내</h1>
 </div>
-<form name="new_party" onsubmit="return submit_party(this, '<?= $shop_id ?>', '<?= $shop_name ?>');">
-    <div id="new_party">
-        <div>
-            <span>
-                <input type="text" name="party_name" placeholder="파티 이름"/>
-                <input type="number" name="party_recruit" placeholder="모집 인원"/>
-            </span>
-            <input type="submit" value="올리기"/>
-        </div>
-        <div>
-        <textarea name="comment" placeholder="글 내용"></textarea>
-        <input type="hidden" name="shop_id" value="<?= $shop_id ?>"/>
-        </div>
-    </div>
-</form>
-<script>
-    function submit_party(form_element, shop_id, shop_name) {
-        if(form_element.comment.value == "" || form_element.party_name.value == "" || form_element.party_recruit.value == 0) {
-            alert("올바른 입력이 아닙니다.");
-            return false;
-        }
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                if (this.responseText == true) {
-                    location.href="view.php?shop_id="+shop_id+"&shop_name="+shop_name;
-                } else {
-                    alert("평가를 이미 등록하셨거나, 다른 문제가 있는 것 같습니다.")
-                }
-            }
-        }
-        xhttp.open("POST", "php/new_party.php", true);
-        xhttp.send(new FormData(form_element));
-        return false;
-    }
-</script>
+<div>
+    <p>성공적으로 저장되었습니다.</p>
+</div>
 </body>
 </html>

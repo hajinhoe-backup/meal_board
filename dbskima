@@ -40,7 +40,7 @@ CREATE TABLE address (
 CREATE TABLE menu (
  shop_id INT,
  name VARCHAR(20),
- price INT(7),
+ price INT,
  ip_address VARCHAR(15),
  PRIMARY KEY (shop_id, name),
  FOREIGN KEY (shop_id) REFERENCES basic_info (id)
@@ -136,10 +136,19 @@ CREATE TABLE meal_party_comment (
  FOREIGN KEY (party_id) REFERENCES meal_party (id)
 );
 
-/*아래는 현재 개발중인 쿼리임.*/
+CREATE TABLE menu_log (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ shop_id INT,
+ name VARCHAR(20),
+ price INT,
+ edit_date DATETIME,
+ ip_address VARCHAR(15),
+ FOREIGN KEY (shop_id, name) REFERENCES menu (shop_id, name)
+ );
+
 
 CREATE TABLE share_info (
- shop_id INT(4) PRIMARY KEY,
+ shop_id INT PRIMARY KEY,
  no_alone BOOL,
  no_card BOOL,
  morning BOOL,
@@ -153,3 +162,9 @@ CREATE TABLE share_info (
 
 sql int(n)의 n은 입력가능 범위가 아니라, n만큼 안되면 0을 채워주는 기능
 밀파티 INT로 수정
+
+아... 메뉴 가격 tiny int로 바꿔야하는데??
+
+프로토타입
+$-> id
+$$ -> selector

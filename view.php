@@ -17,6 +17,7 @@ try {
     $avg_rating = $db->query("select avg(rating) as avg_rating from estimation where shop_id = $shop_id;");
     $now_comment = $db->query("select comment, make_date from now_comment where shop_id = $shop_id order by id desc limit 3");
     $party_list = $db->query("select id, subject, recruit, apply, make_date from meal_party where shop_id = $shop_id order by id desc limit 2");
+    $share_info = $db->query("select no_alone, no_card, morning, lunch, evening from share_info where shop_id = $shop_id;");
 } catch (PDOException $ex) {
     print "정보를 가져오는 도중에 문제가 발생하였습니다. 관리자에게 연락하십시오.";
 }
@@ -52,26 +53,67 @@ $avg_rating = $avg_rating["avg_rating"];
             <span><?= $info_web["etc"] ?></span>
         </div>
         <!-- 유저가 혼밥 거부 등 기록 -->
-        <form name="share_info">
+        <?php
+        if ($share_info -> rowCount() == 0) {
+        ?>
+        <form name="share_info" action="php/save_share_info.php" method="post">
             <div id="share_info">
-                <input type="checkbox" id="s_i_noa" name="share_info" value="no_alone"/>
+                <input type="checkbox" id="s_i_noa" name="no_alone" value="checked"/>
                 <label for="s_i_noa">노혼밥</label>
-                <input type="checkbox" id="s_i_noc" name="share_info" value="no_card"/>
+                <input type="checkbox" id="s_i_noc" name="no_card" value="checked"/>
                 <label for="s_i_noc">노카드</label>
                 <span>
                 <span>붐벼요</span>
                 <span>
-                    <input type="checkbox" id="s_i_mo" name="share_info" value="morning"/>
+                    <input type="checkbox" id="s_i_mo" name="morning" value="checked"/>
                     <label for="s_i_mo">아침</label>
-                    <input type="checkbox" id="s_i_lu" name="share_info" value="lunch"/>
+                    <input type="checkbox" id="s_i_lu" name="lunch" value="checked"/>
                     <label for="s_i_lu">저녁</label>
-                    <input type="checkbox" id="s_i_ev" name="share_info" value="evening"/>
+                    <input type="checkbox" id="s_i_ev" name="evening" value="checked"/>
                     <label for="s_i_ev">저녁</label>
                 </span>
                 </span>
+                <input type="hidden" name="shop_id" value="<?= $shop_id ?>"/>
+                <input type="hidden" name="shop_name" value="<?= $shop_name ?>">
                 <input type="submit" value="저장"/>
             </div>
         </form>
+        <?php
+        } else {
+            $share_info = $share_info -> fetch();
+            for ($i = 0; $i < 5; $i++) {
+                if ($share_info[$i]) {
+                    $share_info[$i] = "checked";
+                } else {
+                    $share_info[$i] = "";
+                }
+            }
+        ?>
+            <form name="share_info" action="php/save_share_info.php" method="post">
+                <div id="share_info">
+                    <input type="checkbox" id="s_i_noa" name="no_alone" value="checked" <?= $share_info[0] ?>/>
+                    <label for="s_i_noa">노혼밥</label>
+                    <input type="checkbox" id="s_i_noc" name="no_card" value="checked" <?= $share_info[1] ?>/>
+                    <label for="s_i_noc">노카드</label>
+                    <span>
+                <span>붐벼요</span>
+                <span>
+                    <input type="checkbox" id="s_i_mo" name="morning" value="checked" <?= $share_info[2] ?>/>
+                    <label for="s_i_mo">아침</label>
+                    <input type="checkbox" id="s_i_lu" name="lunch" value="checked" <?= $share_info[3] ?>/>
+                    <label for="s_i_lu">저녁</label>
+                    <input type="checkbox" id="s_i_ev" name="evening" value="checked" <?= $share_info[4] ?>/>
+                    <label for="s_i_ev">저녁</label>
+                </span>
+                </span>
+                    <input type="hidden" name="shop_id" value="<?= $shop_id ?>"/>
+                    <input type="hidden" name="shop_name" value="<?= $shop_name ?>">
+                    <input type="submit" value="저장"/>
+                </div>
+            </form>
+        <?php
+        }
+        ?>
         <!-- 메뉴 기록 -->
         <h2>이곳에는 어떤 음식이 있을까요?</h2>
         <?php if ($menus -> rowCount() == 0) {?>
@@ -81,6 +123,7 @@ $avg_rating = $avg_rating["avg_rating"];
                 <div class="menu_line">
                     <span>메뉴명</span> <span class="menu_name"><?= $row["name"] ?></span> <span class="menu_price"><?= $row["price"] ?></span><span>원</span>
                     <span class="menu_option">
+                        <a href="edit_log.php?shop_id=<?= $shop_id ?>&shop_name=<?= $shop_name ?>&menu=<?= $row["name"] ?>">변경이력</a>
                         <span class="preview_menu" onclick="view_img(this, '<?= $row["name"] ?>')">미리보기</span>
                         <span class="edit_menu" onclick="edit_menu(this, <?= $shop_id ?>)">수정하기</span>
                         <span class="remove_menu" onclick="remove_menu(this, <?= $shop_id ?>)">삭제하기</span>
